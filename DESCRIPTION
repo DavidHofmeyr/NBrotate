@@ -1,0 +1,14 @@
+Package: NBrotate
+Type: Package
+Title: Optimal projections for naive Bayes classification
+Version: 0.1.0
+Author: David Hofmeyr <dhofmeyr@sun.ac.za> [aut, cre]
+	Michail Melonas [aut]
+Maintainer: David Hofmeyr <dhofmeyr@sun.ac.za>
+Description: Finds optimal projections based on the log-posterior probabilities based on the naive Bayes classifier applied on the projected data.
+Depends: R (>= 2.10.0)
+Imports: Rcpp (>= 0.12.16)
+LinkingTo: Rcpp, RcppArmadillo
+License: GPL-3
+Encoding: UTF-8
+RoxygenNote: 6.1.0

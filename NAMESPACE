@@ -1,0 +1,7 @@
+useDynLib(NBrotate, .registration=TRUE)
+importFrom(Rcpp, evalCpp)
+exportPattern("^[[:alpha:]]+")
+importFrom("stats", "cov", "optim")
+importFrom("pracma", "distmat")
+export("NBrotate")
+S3method(predict, NBrotate)
