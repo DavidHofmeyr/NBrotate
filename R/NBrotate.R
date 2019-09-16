@@ -1,4 +1,4 @@
-NBrotate <- function(X, y, V0 = NULL, ndim = NULL, method = 'Gaussian'){
+NBrotate <- function(X, y, V0 = NULL, ndim = NULL, method = 'Gaussian', hmult = 1){
   n <- nrow(X)
   d <- ncol(X)
   yy <- y
@@ -28,7 +28,7 @@ NBrotate <- function(X, y, V0 = NULL, ndim = NULL, method = 'Gaussian'){
   else if(method=='kernel'){
     mn <- colMeans(X)
     X <- sweep(X, 2, mn, '-')
-    h <- sapply(1:length(u), function(k) mean(eigen(t(V0)%*%S[[k]]%*%V0)$values[1])^.5/(n*PI[k])^(1/(4+ndim)))
+    h <- hmult*sapply(1:length(u), function(k) mean(eigen(t(V0)%*%S[[k]]%*%V0)$values[1])^.5/(n*PI[k])^(1/(4+ndim)))
     V <- optim(V0, f_NB_2, df_NB_2, X, yy, PI, h, method = 'BFGS', control = list(fnscale = -1))$par
     V <- sweep(V, 2, apply(V, 2, norm_vec), '/')
     sol <- list(V=V, X = X, y=yy, PI=PI, h=h, nc = max(yy), mu = mn, y_labels = u, method = 'kernel')
