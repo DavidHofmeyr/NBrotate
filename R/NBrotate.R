@@ -19,7 +19,7 @@ NBrotate <- function(X, y, V0 = NULL, ndim = NULL, method = 'Gaussian', hmult = 
   }
   S <- lapply(1:length(u), function(k) cov(X[which(yy==k),]))
   if(method=='Gaussian'){
-    V <- optim(V0, fnb_G, dfnb_G, X, yy, MU, S, PI, n, method = 'BFGS', control = list(fnscale = -1))$par
+    V <- optim(V0, fnb_G, dfnb_G, X, yy, MU, S, PI, n, method = 'L-BFGS-B', control = list(fnscale = -1))$par
     V <- sweep(V, 2, apply(V, 2, norm_vec), '/')
     sol <- list(V=V, X = X, y = yy, MU=MU, S=S, PI=PI, nc = max(yy), y_labels = u, method = 'Gaussian')
     class(sol) <- "NBrotate"
@@ -29,7 +29,7 @@ NBrotate <- function(X, y, V0 = NULL, ndim = NULL, method = 'Gaussian', hmult = 
     mn <- colMeans(X)
     X <- sweep(X, 2, mn, '-')
     h <- hmult*sapply(1:length(u), function(k) mean(eigen(S[[k]])$values[1:ndim])^.5/(n*PI[k])^(1/5))
-    V <- optim(V0, f_NB_2, df_NB_2, X, yy, PI, h, method = 'BFGS', control = list(fnscale = -1))$par
+    V <- optim(V0, f_NB_2, df_NB_2, X, yy, PI, h, method = 'L-BFGS-B', control = list(fnscale = -1))$par
     V <- sweep(V, 2, apply(V, 2, norm_vec), '/')
     sol <- list(V=V, X = X, y=yy, PI=PI, h=h, nc = max(yy), mu = mn, y_labels = u, method = 'kernel')
     class(sol) <- "NBrotate"
